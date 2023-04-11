@@ -7,12 +7,17 @@ import (
 
 	fhir "github.com/Squirrel-Entreprise/go-fhir/cmd"
 	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
+	"github.com/joho/godotenv"
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		fmt.Println("🤯 Error loading .env file")
+	}
+	apiKey := os.Getenv("ESANTE_API_KEY")
 	timeStart := time.Now()
 	fmt.Println("🏁 Starting test of go-fhir...")
-	apiKey := os.Getenv("ESANTE_API_KEY")
 	clientFhir := fhir.New("https://gateway.api.esante.gouv.fr/fhir", "ESANTE-API-KEY", apiKey, fhir.R4)
 
 	// print the result
@@ -24,7 +29,7 @@ func main() {
 	}*/
 
 	// print the result
-	var res fhirInterface.IResource = clientFhir.Search(fhirInterface.ORGANIZATION).Where("name:contains=imagerie").ReturnBundle().Execute()
+	var res fhirInterface.IResource = clientFhir.Search(fhirInterface.ORGANIZATION).Where("imagerie").ReturnBundle().Execute()
 	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)
 
 	timeEnd := time.Now()

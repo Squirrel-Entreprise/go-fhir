@@ -20,6 +20,9 @@ func (org *Organization) Where(option string) fhirInterface.IParameters {
 	fmt.Printf("\t\t--> Where(%s)\n", option)
 	return &parameters_r4.OrganizationParameters{
 		Client: org.Client,
-		Query:  fmt.Sprintf("/Organization?%s", option),
+		Uri:    "/Organization",
+		Parameters: fhirInterface.UrlParameters{
+			Name: option,
+		},
 	}
 }

@@ -95,7 +95,10 @@ func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterf
 	switch resType {
 	case fhirInterface.BUNDLE:
 		res := &models_r4.Bundle{}
-		f.call("GET", path, nil, res)
+		err := f.call("GET", path, nil, res)
+		if err != nil {
+			return nil, err
+		}
 		return res, nil
 	}
 	return nil, nil

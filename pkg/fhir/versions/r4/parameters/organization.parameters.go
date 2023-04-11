@@ -8,15 +8,17 @@ import (
 )
 
 type OrganizationParameters struct {
-	Client fhirInterface.IClient
-	Query  string
+	Client     fhirInterface.IClient
+	Uri        string
+	Parameters fhirInterface.UrlParameters
 }
 
 func (org *OrganizationParameters) ReturnBundle() fhirInterface.IRequest {
 	fmt.Println("\t\t\t--> ReturnBundle()")
 	return &r4.Request{
 		Client:       org.Client,
-		Uri:          org.Query,
+		Uri:          org.Uri,
+		Parameters:   org.Parameters,
 		TypeReturned: fhirInterface.BUNDLE,
 	}
 	//return nil
