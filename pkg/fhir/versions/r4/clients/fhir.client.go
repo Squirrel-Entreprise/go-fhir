@@ -9,33 +9,42 @@ import (
 	"time"
 
 	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
+	models_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/models"
 )
 
 // HTTP client for making requests to FHIR servers.
 type httpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
-type UrlParameters struct {
-	Name string
-}
-
-var (
-	ClientHttp httpClient
-)
 
 type fhir struct {
+	Client   httpClient
 	BaseURL  string
 	ApiKey   string
 	ApiValue string
 }
 
-func New(baseURL, apiKey, apiValue string) fhirInterface.IFhirClient {
+func NewFhirClient(baseURL, apiKey, apiValue string) fhirInterface.IClient {
+	clientHttp := &http.Client{
+		Timeout: 30 * time.Second,
+		Transport: &http.Transport{
+			MaxIdleConns:        0,
+			MaxIdleConnsPerHost: 10,
+		},
+	}
 	return &fhir{
+		Client:   clientHttp,
 		BaseURL:  baseURL,
 		ApiKey:   apiKey,
 		ApiValue: apiValue,
 	}
 }
+
+type UrlParameters struct {
+	Name string
+}
+
+/*
 func init() {
 	ClientHttp = &http.Client{
 		Timeout: 30 * time.Second,
@@ -44,7 +53,7 @@ func init() {
 			MaxIdleConnsPerHost: 10,
 		},
 	}
-}
+}*/
 func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{}) error {
 
 	fmt.Println(method, "->", f.BaseURL+path.String())
@@ -57,7 +66,7 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 	req.Header.Set("Accept", "application/json")
 	req.Header.Set(f.ApiKey, f.ApiValue)
 
-	response, err := ClientHttp.Do(req)
+	response, err := f.Client.Do(req)
 	if err != nil {
 		return err
 	}
@@ -71,8 +80,7 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 	return nil
 
 }
-
-func (f *fhir) get(uri string, p UrlParameters, res interface{}) error {
+func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, res interface{}) error {
 	values := url.Values{}
 
 	if p.Name != "" {
@@ -84,4 +92,15 @@ func (f *fhir) get(uri string, p UrlParameters, res interface{}) error {
 		RawQuery: values.Encode(),
 	}
 	return f.call("GET", path, nil, res)
+}
+
+func (f *fhir) Search(r fhirInterface.Resource) fhirInterface.IResource {
+	switch r {
+	case fhirInterface.ORGANIZATION:
+		fmt.Println("\t--> Search(Organization)")
+		return &models_r4.Organization{
+			Client: f,
+		}
+	}
+	return nil
 }

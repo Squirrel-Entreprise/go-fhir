@@ -11,10 +11,10 @@ const (
 	R4 FhirVersion = "r4"
 )
 
-func New(baseUrl string, apiKey string, apiValue string, version FhirVersion) fhirInterface.IFhirClient {
+func New(baseUrl string, apiKey string, apiValue string, version FhirVersion) fhirInterface.IClient {
 	switch version {
 	case R4:
-		return clients_r4.New(baseUrl, apiKey, apiValue)
+		return clients_r4.NewFhirClient(baseUrl, apiKey, apiValue)
 	default:
 		return nil
 	}
