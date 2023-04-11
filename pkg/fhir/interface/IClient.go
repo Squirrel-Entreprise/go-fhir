@@ -6,7 +6,7 @@ type UrlParameters struct {
 
 type IClient interface {
 	//GetOrganizationByName(name string) (IOrganization, error)
-	Get(uri string, p UrlParameters, res interface{}) error
+	Get(uri string, p UrlParameters, resType Resource) (IResource, error)
 	Search(resourceName Resource) IResource
 }
 

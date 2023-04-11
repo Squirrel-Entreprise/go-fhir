@@ -56,7 +56,7 @@ func init() {
 }*/
 func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{}) error {
 
-	fmt.Println(method, "->", f.BaseURL+path.String())
+	fmt.Println("\t\t\t\t\t", "-->", method, ":", f.BaseURL+path.String())
 
 	req, err := http.NewRequest(method, f.BaseURL+path.String(), bytes.NewBuffer(payload))
 	if err != nil {
@@ -80,7 +80,7 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 	return nil
 
 }
-func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, res interface{}) error {
+func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.Resource) (fhirInterface.IResource, error) {
 	values := url.Values{}
 
 	if p.Name != "" {
@@ -91,7 +91,15 @@ func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, res interface{}) e
 		Path:     uri,
 		RawQuery: values.Encode(),
 	}
-	return f.call("GET", path, nil, res)
+
+	switch resType {
+	case fhirInterface.BUNDLE:
+		res := &models_r4.Bundle{}
+		f.call("GET", path, nil, res)
+		return res, nil
+	}
+	return nil, nil
+	//return f.call("GET", path, nil, res)
 }
 
 func (f *fhir) Search(r fhirInterface.Resource) fhirInterface.IResource {

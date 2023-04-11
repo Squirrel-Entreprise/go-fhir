@@ -1,5 +1,5 @@
 package fhirInterface
 
 type IRequest interface {
-	Execute()
+	Execute() IResource // Maybe interface{} after ?
 }

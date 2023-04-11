@@ -13,7 +13,13 @@ type Request struct {
 	TypeReturned fhirInterface.Resource
 }
 
-func (req *Request) Execute() {
-	req.Client.Get(req.Uri, req.Parameters, req.TypeReturned)
+func (req *Request) Execute() fhirInterface.IResource {
 	fmt.Println("\t\t\t\t--> Execute()")
+	var err error
+	var res fhirInterface.IResource
+	res, err = req.Client.Get(req.Uri, req.Parameters, req.TypeReturned)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return res
 }
