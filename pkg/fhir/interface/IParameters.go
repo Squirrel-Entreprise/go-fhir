@@ -1,8 +1,8 @@
 package fhirInterface
 
 type IParameters interface {
-	//And() IRequest
-	//Or() IRequest
+	And(up UrlParameters) IParameters
+	Or(up UrlParameters) IParameters
 	//ReturnBundle()
 	ReturnBundle() IRequest
 }

@@ -30,7 +30,19 @@ func main() {
 	}*/
 
 	// print the result
-	var res fhirInterface.IResource = clientFhir.Search(fhirInterface.ORGANIZATION).Where(models_r4.Organization{}.Name.Matches().Value("imagerie")).ReturnBundle().Execute()
+	var res fhirInterface.IResource = clientFhir.
+		Search(fhirInterface.ORGANIZATION).
+		Where(models_r4.
+			Organization{}.
+			Name.
+			Contains().
+			Value("imagerie")).
+		Or(models_r4.
+			Organization{}.
+			Name.
+			Contains().
+			Value("centre")).
+		ReturnBundle().Execute()
 	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)
 
 	timeEnd := time.Now()
