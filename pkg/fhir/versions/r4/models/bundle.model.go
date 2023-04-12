@@ -11,6 +11,6 @@ type Bundle struct {
 	} `json:"entry"`
 }
 
-func (org *Bundle) Where(option string) fhirInterface.IParameters {
+func (org *Bundle) Where(option fhirInterface.UrlParameters) fhirInterface.IParameters {
 	return nil
 }

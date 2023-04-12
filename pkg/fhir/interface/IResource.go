@@ -1,17 +1,17 @@
 package fhirInterface
 
-type Resource string
+type ResourceType string
 
 const (
-	BUNDLE       Resource = "Bundle"
-	ORGANIZATION Resource = "Organization"
-	PRACTITIONER Resource = "Practitioner"
-	PATIENT      Resource = "Patient"
+	BUNDLE            ResourceType = "Bundle"
+	ORGANIZATION      ResourceType = "Organization"
+	PRACTITIONER      ResourceType = "Practitioner"
+	PRACTITIONER_ROLE ResourceType = "PractitionerRole"
 )
 
 type IResource interface {
 	//New(client IFhirClient) IResource
-	Where(option string) IParameters
+	Where(option UrlParameters) IParameters
 }
 
 // IParameter

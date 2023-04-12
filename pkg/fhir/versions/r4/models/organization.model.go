@@ -8,21 +8,23 @@ import (
 )
 
 type Organization struct {
-	Client fhirInterface.IClient
-	Entry  []struct {
+	Client  fhirInterface.IClient
+	Address fhirInterface.FhirValue
+	Name    fhirInterface.FhirValue
+	/*Entry  []struct {
 		Resource struct {
 			Name string `json:"name"`
 		} `json:"resource"`
-	} `json:"entry"`
+	} `json:"entry"`*/
 }
 
-func (org *Organization) Where(option string) fhirInterface.IParameters {
+// The where funciton is here to add parameters to the request
+func (org *Organization) Where(option fhirInterface.UrlParameters) fhirInterface.IParameters {
 	fmt.Printf("\t\t--> Where(%s)\n", option)
+
 	return &parameters_r4.OrganizationParameters{
-		Client: org.Client,
-		Uri:    "/Organization",
-		Parameters: fhirInterface.UrlParameters{
-			Name: option,
-		},
+		Client:     org.Client,
+		Uri:        "/Organization",
+		Parameters: option,
 	}
 }

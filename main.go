@@ -7,6 +7,7 @@ import (
 
 	fhir "github.com/Squirrel-Entreprise/go-fhir/cmd"
 	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
+	models_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/models"
 	"github.com/joho/godotenv"
 )
 
@@ -29,7 +30,7 @@ func main() {
 	}*/
 
 	// print the result
-	var res fhirInterface.IResource = clientFhir.Search(fhirInterface.ORGANIZATION).Where("imagerie").ReturnBundle().Execute()
+	var res fhirInterface.IResource = clientFhir.Search(fhirInterface.ORGANIZATION).Where(models_r4.Organization{}.Name.Matches().Value("imagerie")).ReturnBundle().Execute()
 	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)
 
 	timeEnd := time.Now()

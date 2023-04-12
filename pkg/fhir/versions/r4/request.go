@@ -10,7 +10,7 @@ type Request struct {
 	Client       fhirInterface.IClient
 	Uri          string
 	Parameters   fhirInterface.UrlParameters
-	TypeReturned fhirInterface.Resource
+	TypeReturned fhirInterface.ResourceType
 }
 
 func (req *Request) Execute() fhirInterface.IResource {

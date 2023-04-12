@@ -80,7 +80,7 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 	return nil
 
 }
-func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.Resource) (fhirInterface.IResource, error) {
+func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.ResourceType) (fhirInterface.IResource, error) {
 	values := url.Values{}
 
 	if p.Name != "" {
@@ -105,7 +105,7 @@ func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterf
 	//return f.call("GET", path, nil, res)
 }
 
-func (f *fhir) Search(r fhirInterface.Resource) fhirInterface.IResource {
+func (f *fhir) Search(r fhirInterface.ResourceType) fhirInterface.IResource {
 	switch r {
 	case fhirInterface.ORGANIZATION:
 		fmt.Println("\t--> Search(Organization)")
