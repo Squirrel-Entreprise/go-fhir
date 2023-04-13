@@ -5,10 +5,15 @@
 ## Sample
 visible into `./cmd/sample/main.go`
 
+### Initialization
 ```go
 apiKey := os.Getenv("ESANTE_API_KEY")
 clientFhir := fhir.New("https://gateway.api.esante.gouv.fr/fhir", "ESANTE-API-KEY", apiKey, fhir.R4)
+```
 
+### Searching PractitionerRole by Role and Active Status
+Please note that we receive a prototype of the BundleResult struct, which is not yet complete, after executing the request.
+```go
 bundleRes := clientFhir.
     Search(fhirInterface.PRACTITIONER_ROLE).
     Where(models_r4.PractitionerRole{}.
@@ -19,26 +24,13 @@ bundleRes := clientFhir.
         Active.
         IsActive()).
     ReturnBundle().Execute()
+```
 
-
-fmt.Printf("👨‍⚕️ PractitionerRole 0, details : \n")
-
+### Searching PractitionerRole by ID
+```go
 practitionerRoleRaw := clientFhir.
     Search(fhirInterface.PRACTITIONER_ROLE).
     ById(bundleRes.(*models_r4.BundleResult).Entry[0].Resource.Id).
     ReturnRaw().
     Execute()
-
-fmt.Println(string(practitionerRoleRaw.([]byte)))
-
-
-fmt.Println("👨‍⚕️ Practitioner with Id = 003-357936 : ")
-
-practitionerRaw := clientFhir.
-    Search(fhirInterface.PRACTITIONER).
-    ById("003-357936").
-    ReturnRaw().
-    Execute()
-
-fmt.Println(string(practitionerRaw.([]byte)))
 ```
