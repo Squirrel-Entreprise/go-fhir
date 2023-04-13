@@ -41,6 +41,18 @@ func main() {
 		Execute()
 	fmt.Println(string(practitionerRoleRaw.([]byte)))
 
+	// NextPage of results
+	bundleRes = clientFhir.LoadPage().Next(bundleRes.(*models_r4.BundleResult)).Execute()
+	fmt.Println("👨‍⚕️ Next page of results : ", bundleRes.(*models_r4.BundleResult))
+
+	fmt.Printf("👨‍⚕️ PractitionerRole 0 on next page, details : \n")
+	practitionerRoleRaw = clientFhir.
+		Search(fhirInterface.PRACTITIONER_ROLE).
+		ById(bundleRes.(*models_r4.BundleResult).Entry[0].Resource.Id).
+		ReturnRaw().
+		Execute()
+	fmt.Println(string(practitionerRoleRaw.([]byte)))
+
 	// get the practitioner with the Id 003-357936
 	fmt.Println("👨‍⚕️ Practitioner with Id = 003-357936 : ")
 	practitionerRaw := clientFhir.

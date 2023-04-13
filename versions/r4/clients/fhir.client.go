@@ -69,6 +69,10 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 	return nil
 }
 
+func (f *fhir) GetBaseUrl() string {
+	return f.BaseURL
+}
+
 func (f *fhir) GetRaw(uri string, p fhirInterface.UrlParameters) ([]byte, error) {
 	values := p.BuildUrlValues()
 	path := &url.URL{
@@ -112,7 +116,9 @@ func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterf
 
 	switch resType {
 	case fhirInterface.BUNDLE:
-		res := &models_r4.BundleResult{}
+		res := &models_r4.BundleResult{
+			Client: f,
+		}
 		err := f.call("GET", path, nil, res)
 		if err != nil {
 			return nil, err
@@ -143,4 +149,21 @@ func (f *fhir) Search(r fhirInterface.ResourceType) fhirInterface.IResource {
 		}
 	}
 	return nil
+}
+
+func (f *fhir) LoadPage() struct {
+	Next func(fhirInterface.IResourceResult) fhirInterface.IRequest
+} {
+	return struct {
+		Next func(fhirInterface.IResourceResult) fhirInterface.IRequest
+	}{
+		Next: func(res fhirInterface.IResourceResult) fhirInterface.IRequest {
+			fmt.Println("\t\t\t\t--> LoadNextPage")
+			req, err := res.MakeRequestNextPage()
+			if err != nil {
+				return nil
+			}
+			return req
+		},
+	}
 }
