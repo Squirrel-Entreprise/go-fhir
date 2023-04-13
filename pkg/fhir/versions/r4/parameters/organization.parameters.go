@@ -25,13 +25,13 @@ func (org *OrganizationParameters) ReturnBundle() fhirInterface.IRequest {
 }
 
 func (org *OrganizationParameters) And(option fhirInterface.UrlParameters) fhirInterface.IParameters {
-	fmt.Println("\t\t\t--> And()")
+	fmt.Println("\t\t--> And()")
 	org.Parameters = org.Parameters.Intersection(option)
 	return org
 }
 
 func (org *OrganizationParameters) Or(option fhirInterface.UrlParameters) fhirInterface.IParameters {
-	fmt.Println("\t\t\t--> Or()")
+	fmt.Println("\t\t--> Or()")
 	org.Parameters = org.Parameters.Union(option)
 	return org
 }

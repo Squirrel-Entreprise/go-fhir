@@ -40,10 +40,6 @@ func NewFhirClient(baseURL, apiKey, apiValue string) fhirInterface.IClient {
 	}
 }
 
-type UrlParameters struct {
-	Name string
-}
-
 /*
 func init() {
 	ClientHttp = &http.Client{
@@ -81,11 +77,11 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 
 }
 func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.ResourceType) (fhirInterface.IResource, error) {
-	values := url.Values{}
+	values := p.BuildUrlValues()
 
-	if p.Name != "" {
+	/*if p.Name != "" {
 		values.Add("name:contains", p.Name)
-	}
+	}*/
 
 	path := &url.URL{
 		Path:     uri,
@@ -110,6 +106,11 @@ func (f *fhir) Search(r fhirInterface.ResourceType) fhirInterface.IResource {
 	case fhirInterface.ORGANIZATION:
 		fmt.Println("\t--> Search(Organization)")
 		return &models_r4.Organization{
+			Client: f,
+		}
+	case fhirInterface.PRACTITIONER_ROLE:
+		fmt.Println("\t--> Search(PractitionerRole)")
+		return &models_r4.PractitionerRole{
 			Client: f,
 		}
 	}

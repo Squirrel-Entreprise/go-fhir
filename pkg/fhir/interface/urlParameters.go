@@ -1,14 +1,35 @@
 package fhirInterface
 
+import "net/url"
+
 type UrlParameters struct {
 	Name    string
 	Address string
+	Role    string
+	Active  bool
+}
+
+func (u UrlParameters) BuildUrlValues() url.Values {
+	values := url.Values{}
+	if u.Name != "" {
+		values.Add("name", u.Name)
+	}
+	if u.Address != "" {
+		values.Add("address", u.Address)
+	}
+	if u.Role != "" {
+		values.Add("role", u.Role)
+	}
+	if u.Active {
+		values.Add("active", "true")
+	}
+	return values
 }
 
 func (u UrlParameters) Intersection(u_cur UrlParameters) UrlParameters {
-	/*return UrlParameters{
-		Name: u.Name + "," + u_cur.Name,
-	}*/
+	if u_cur.Active {
+		u.Active = u_cur.Active
+	}
 	return u
 }
 
@@ -22,11 +43,11 @@ func (u UrlParameters) Union(u_cur UrlParameters) UrlParameters {
 	return u
 }
 
-type FhirValue struct {
+type FhirName struct {
 	Value string
 }
 
-func (f FhirValue) Contains() struct {
+func (f FhirName) Contains() struct {
 	Value func(v string) UrlParameters
 } {
 	return struct {
@@ -37,5 +58,51 @@ func (f FhirValue) Contains() struct {
 				Name: v,
 			}
 		},
+	}
+}
+
+type FhirAddress struct {
+	Value string
+}
+
+func (f FhirAddress) Contains() struct {
+	Value func(v string) UrlParameters
+} {
+	return struct {
+		Value func(v string) UrlParameters
+	}{
+		Value: func(v string) UrlParameters {
+			return UrlParameters{
+				Address: v,
+			}
+		},
+	}
+}
+
+type FhirRole struct {
+	Value string
+}
+
+func (f FhirRole) Contains() struct {
+	Value func(v string) UrlParameters
+} {
+	return struct {
+		Value func(v string) UrlParameters
+	}{
+		Value: func(v string) UrlParameters {
+			return UrlParameters{
+				Role: v,
+			}
+		},
+	}
+}
+
+type FhirActive struct {
+	Value bool
+}
+
+func (f FhirActive) IsActive() UrlParameters {
+	return UrlParameters{
+		Active: true,
 	}
 }

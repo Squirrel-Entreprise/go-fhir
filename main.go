@@ -30,7 +30,7 @@ func main() {
 	}*/
 
 	// print the result
-	var res fhirInterface.IResource = clientFhir.
+	/*var res fhirInterface.IResource = clientFhir.
 		Search(fhirInterface.ORGANIZATION).
 		Where(models_r4.
 			Organization{}.
@@ -43,7 +43,21 @@ func main() {
 			Contains().
 			Value("centre")).
 		ReturnBundle().Execute()
-	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)
+	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)*/
+
+	// print the result of sample 1
+	var res fhirInterface.IResource = clientFhir.
+		Search(fhirInterface.PRACTITIONER_ROLE).
+		Where(models_r4.PractitionerRole{}.
+			Role.
+			Contains().
+			Value("70")).
+		And(models_r4.PractitionerRole{}.
+			Active.
+			IsActive()).
+		ReturnBundle().Execute()
+
+	fmt.Println(" 🏥 PractitionerRole (role '70' and active = true) : ", res)
 
 	timeEnd := time.Now()
 	fmt.Printf("🏁 Finished test of go-fhir in %v seconds ! 🎉\n", timeEnd.Sub(timeStart).Seconds())
