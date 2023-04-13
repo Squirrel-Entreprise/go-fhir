@@ -5,9 +5,9 @@ import (
 	"os"
 	"time"
 
-	fhir "github.com/Squirrel-Entreprise/go-fhir/cmd"
-	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
-	models_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/models"
+	fhir "github.com/Squirrel-Entreprise/go-fhir"
+	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/interface"
+	models_r4 "github.com/Squirrel-Entreprise/go-fhir/versions/r4/models"
 	"github.com/joho/godotenv"
 )
 
@@ -21,31 +21,6 @@ func main() {
 	fmt.Println("🏁 Starting test of go-fhir...")
 	clientFhir := fhir.New("https://gateway.api.esante.gouv.fr/fhir", "ESANTE-API-KEY", apiKey, fhir.R4)
 
-	// print the result
-	/*organization, err := clientFhir.GetOrganizationByName("imagerie")
-	if err != nil {
-		fmt.Printf("🤯 Error: %v", err)
-	} else {
-		fmt.Println("🏤 Organisation (contenant 'imagerie') : ", organization)
-	}*/
-
-	// print the result
-	/*var res fhirInterface.IResource = clientFhir.
-		Search(fhirInterface.ORGANIZATION).
-		Where(models_r4.
-			Organization{}.
-			Name.
-			Contains().
-			Value("imagerie")).
-		Or(models_r4.
-			Organization{}.
-			Name.
-			Contains().
-			Value("centre")).
-		ReturnBundle().Execute()
-	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)*/
-
-	// print the result of sample 1
 	bundleRes := clientFhir.
 		Search(fhirInterface.PRACTITIONER_ROLE).
 		Where(models_r4.PractitionerRole{}.
@@ -57,15 +32,13 @@ func main() {
 			IsActive()).
 		ReturnBundle().Execute()
 
-	// details about the first entry
-	fmt.Printf("👨‍⚕️ PractitionerRole 1 details : \n")
+	// The BundleResult returned by ReturnBundle() is a not complete prototype
+	fmt.Printf("👨‍⚕️ PractitionerRole 0, details : \n")
 	practitionerRoleRaw := clientFhir.
 		Search(fhirInterface.PRACTITIONER_ROLE).
 		ById(bundleRes.(*models_r4.BundleResult).Entry[0].Resource.Id).
 		ReturnRaw().
 		Execute()
-
-	// print the raw result in a string
 	fmt.Println(string(practitionerRoleRaw.([]byte)))
 
 	// get the practitioner with the Id 003-357936
@@ -75,8 +48,6 @@ func main() {
 		ById("003-357936").
 		ReturnRaw().
 		Execute()
-
-	// print the raw result in a string
 	fmt.Println(string(practitionerRaw.([]byte)))
 
 	// get the organization with the Id 001-01-702556
@@ -86,8 +57,6 @@ func main() {
 		ById("001-01-702556").
 		ReturnRaw().
 		Execute()
-
-	// print the raw result in a string
 	fmt.Println(string(organizationRaw.([]byte)))
 
 	timeEnd := time.Now()

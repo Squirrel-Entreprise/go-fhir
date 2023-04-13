@@ -9,8 +9,8 @@ import (
 	"net/url"
 	"time"
 
-	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
-	models_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/models"
+	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/interface"
+	models_r4 "github.com/Squirrel-Entreprise/go-fhir/versions/r4/models"
 )
 
 type httpClient interface {

@@ -1,8 +1,8 @@
 package fhir
 
 import (
-	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
-	clients_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/clients"
+	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/interface"
+	clients_r4 "github.com/Squirrel-Entreprise/go-fhir/versions/r4/clients"
 )
 
 type FhirVersion string

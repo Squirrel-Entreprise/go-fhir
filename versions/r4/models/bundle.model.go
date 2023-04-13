@@ -3,9 +3,12 @@ package models_r4
 import (
 	"fmt"
 
-	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
+	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/interface"
 )
 
+// This BundleResult is not complete and is only used for testing
+// TODO: Make it complete, and make it for the other models
+// TODO: Make a parser for the BundleResult (and the other models)
 type BundleResult struct {
 	Id    string `json:"id"`
 	Entry []struct {
@@ -14,6 +17,7 @@ type BundleResult struct {
 			Name string `json:"name"`
 		} `json:"resource"`
 	} `json:"entry"`
+	// TODO: Add more fields
 }
 
 func (b *BundleResult) GetId() string {
