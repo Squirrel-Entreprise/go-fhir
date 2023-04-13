@@ -34,3 +34,6 @@ practitionerRoleRaw := clientFhir.
     ReturnRaw().
     Execute()
 ```
+
+## Credits
+This package was inspired by the excellent HAPI FHIR Java library,
