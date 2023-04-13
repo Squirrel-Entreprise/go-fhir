@@ -3,8 +3,8 @@ package models_r4
 import (
 	"fmt"
 
-	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
-	parameters_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/parameters"
+	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/interface"
+	parameters_r4 "github.com/Squirrel-Entreprise/go-fhir/versions/r4/parameters"
 )
 
 type Organization struct {

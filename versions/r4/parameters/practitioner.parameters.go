@@ -3,8 +3,8 @@ package parameters_r4
 import (
 	"fmt"
 
-	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
-	"github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4"
+	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/interface"
+	"github.com/Squirrel-Entreprise/go-fhir/versions/r4"
 )
 
 type PractitionerParameters struct {
