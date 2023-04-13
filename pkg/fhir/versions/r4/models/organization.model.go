@@ -11,11 +11,15 @@ type Organization struct {
 	Client  fhirInterface.IClient
 	Address fhirInterface.FhirAddress
 	Name    fhirInterface.FhirName
-	/*Entry  []struct {
-		Resource struct {
-			Name string `json:"name"`
-		} `json:"resource"`
-	} `json:"entry"`*/
+}
+
+func (org *Organization) ById(id string) fhirInterface.IParameters {
+	fmt.Printf("\t\t--> ById()\n")
+
+	return &parameters_r4.OrganizationParameters{
+		Client: org.Client,
+		Uri:    "/Organization/" + id,
+	}
 }
 
 // The where funciton is here to add parameters to the request

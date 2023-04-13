@@ -9,15 +9,20 @@ import (
 
 type PractitionerRole struct {
 	Client  fhirInterface.IClient
+	Id      string
 	Address fhirInterface.FhirAddress
 	Name    fhirInterface.FhirName
 	Role    fhirInterface.FhirRole
 	Active  fhirInterface.FhirActive
-	/*Entry  []struct {
-		Resource struct {
-			Name string `json:"name"`
-		} `json:"resource"`
-	} `json:"entry"`*/
+}
+
+func (pr *PractitionerRole) ById(id string) fhirInterface.IParameters {
+	fmt.Printf("\t\t--> ById()\n")
+
+	return &parameters_r4.PractitionerRoleParameters{
+		Client: pr.Client,
+		Uri:    "/PractitionerRole/" + id,
+	}
 }
 
 // The where funciton is here to add parameters to the request

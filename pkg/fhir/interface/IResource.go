@@ -7,10 +7,12 @@ const (
 	ORGANIZATION      ResourceType = "Organization"
 	PRACTITIONER      ResourceType = "Practitioner"
 	PRACTITIONER_ROLE ResourceType = "PractitionerRole"
+	RAW               ResourceType = "Raw"
 )
 
 type IResource interface {
 	//New(client IFhirClient) IResource
+	ById(id string) IParameters
 	Where(option UrlParameters) IParameters
 }
 

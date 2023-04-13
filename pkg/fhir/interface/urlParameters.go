@@ -3,6 +3,7 @@ package fhirInterface
 import "net/url"
 
 type UrlParameters struct {
+	Id      string
 	Name    string
 	Address string
 	Role    string

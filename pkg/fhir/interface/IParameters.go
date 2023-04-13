@@ -5,6 +5,8 @@ type IParameters interface {
 	Or(up UrlParameters) IParameters
 	//ReturnBundle()
 	ReturnBundle() IRequest
+	Return() IRequest
+	ReturnRaw() IRequest
 }
 
 // IRequest

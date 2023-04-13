@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"net/url"
 	"time"
@@ -71,18 +72,50 @@ func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{
 	}
 
 	if response.StatusCode == 200 {
-		return json.NewDecoder(response.Body).Decode(&res)
+		err = json.NewDecoder(response.Body).Decode(res)
+		if err != nil {
+			return err
+		}
 	}
 	return nil
-
 }
+
+func (f *fhir) GetRaw(uri string, p fhirInterface.UrlParameters) ([]byte, error) {
+	values := p.BuildUrlValues()
+	path := &url.URL{
+		Path:     uri,
+		RawQuery: values.Encode(),
+	}
+
+	fmt.Println("\t\t\t\t\t", "--> GetRAW:", f.BaseURL+path.String())
+	req, err := http.NewRequest("GET", f.BaseURL+path.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set(f.ApiKey, f.ApiValue)
+
+	res, err := f.Client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	if res != nil {
+		defer res.Body.Close()
+	}
+
+	if res.StatusCode == 200 {
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			return nil, err
+		}
+		return body, nil
+	}
+	return nil, nil
+}
+
 func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.ResourceType) (fhirInterface.IResource, error) {
 	values := p.BuildUrlValues()
-
-	/*if p.Name != "" {
-		values.Add("name:contains", p.Name)
-	}*/
-
 	path := &url.URL{
 		Path:     uri,
 		RawQuery: values.Encode(),
@@ -97,8 +130,8 @@ func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterf
 		}
 		return res, nil
 	}
+
 	return nil, nil
-	//return f.call("GET", path, nil, res)
 }
 
 func (f *fhir) Search(r fhirInterface.ResourceType) fhirInterface.IResource {
@@ -111,6 +144,12 @@ func (f *fhir) Search(r fhirInterface.ResourceType) fhirInterface.IResource {
 	case fhirInterface.PRACTITIONER_ROLE:
 		fmt.Println("\t--> Search(PractitionerRole)")
 		return &models_r4.PractitionerRole{
+			Client: f,
+		}
+
+	case fhirInterface.PRACTITIONER:
+		fmt.Println("\t--> Search(Practitioner)")
+		return &models_r4.Practitioner{
 			Client: f,
 		}
 	}

@@ -24,6 +24,20 @@ func (prac *PractitionerParameters) ReturnBundle() fhirInterface.IRequest {
 	//return nil
 }
 
+func (prac *PractitionerParameters) Return() fhirInterface.IRequest {
+	return nil
+}
+
+func (p *PractitionerParameters) ReturnRaw() fhirInterface.IRequest {
+	fmt.Println("\t\t\t--> ReturnRaw()")
+	return &r4.Request{
+		Client:       p.Client,
+		Uri:          p.Uri,
+		Parameters:   p.Parameters,
+		TypeReturned: fhirInterface.RAW,
+	}
+}
+
 func (prac *PractitionerParameters) And(option fhirInterface.UrlParameters) fhirInterface.IParameters {
 	fmt.Println("\t\t\t--> And()")
 	prac.Parameters = prac.Parameters.Intersection(option)

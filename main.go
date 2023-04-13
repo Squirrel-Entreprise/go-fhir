@@ -46,7 +46,7 @@ func main() {
 	fmt.Println("🏤 Organisation (contenant 'imagerie') : ", res)*/
 
 	// print the result of sample 1
-	var res fhirInterface.IResource = clientFhir.
+	bundleRes := clientFhir.
 		Search(fhirInterface.PRACTITIONER_ROLE).
 		Where(models_r4.PractitionerRole{}.
 			Role.
@@ -57,7 +57,38 @@ func main() {
 			IsActive()).
 		ReturnBundle().Execute()
 
-	fmt.Println(" 🏥 PractitionerRole (role '70' and active = true) : ", res)
+	// details about the first entry
+	fmt.Printf("👨‍⚕️ PractitionerRole 1 details : \n")
+	practitionerRoleRaw := clientFhir.
+		Search(fhirInterface.PRACTITIONER_ROLE).
+		ById(bundleRes.(*models_r4.Bundle).Entry[0].Resource.Id).
+		ReturnRaw().
+		Execute()
+
+	// print the raw result in a string
+	fmt.Println(string(practitionerRoleRaw.([]byte)))
+
+	// get the practitioner with the Id 003-357936
+	fmt.Println("👨‍⚕️ Practitioner with Id = 003-357936 : ")
+	practitionerRaw := clientFhir.
+		Search(fhirInterface.PRACTITIONER).
+		ById("003-357936").
+		ReturnRaw().
+		Execute()
+
+	// print the raw result in a string
+	fmt.Println(string(practitionerRaw.([]byte)))
+
+	// get the organization with the Id 001-01-702556
+	fmt.Println("🏤 Organization with Id = 001-01-702556 : ")
+	organizationRaw := clientFhir.
+		Search(fhirInterface.ORGANIZATION).
+		ById("001-01-702556").
+		ReturnRaw().
+		Execute()
+
+	// print the raw result in a string
+	fmt.Println(string(organizationRaw.([]byte)))
 
 	timeEnd := time.Now()
 	fmt.Printf("🏁 Finished test of go-fhir in %v seconds ! 🎉\n", timeEnd.Sub(timeStart).Seconds())
