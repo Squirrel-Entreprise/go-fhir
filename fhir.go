@@ -19,5 +19,3 @@ func New(baseUrl string, apiKey string, apiValue string, version FhirVersion) fh
 		return nil
 	}
 }
-
-// New creates a new FHIR client for the given version.

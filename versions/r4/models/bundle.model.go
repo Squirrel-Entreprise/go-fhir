@@ -8,9 +8,12 @@ import (
 	"github.com/Squirrel-Entreprise/go-fhir/versions/r4"
 )
 
-// This BundleResult is not complete and is only used for testing
-// TODO: Make it complete, and make it for the other models
-// TODO: Make a parser for the BundleResult (and the other models)
+/*
+	This BundleResult below is not complete
+
+	TODO: Make it complete, and make it for the other models
+	TODO: Make a parser for the BundleResult (and the other models)
+*/
 type BundleResult struct {
 	Client fhirInterface.IClient
 	Id     string `json:"id"`
@@ -24,7 +27,6 @@ type BundleResult struct {
 			Name string `json:"name"`
 		} `json:"resource"`
 	} `json:"entry"`
-	// TODO: Add more fields
 }
 
 func (b *BundleResult) GetId() string {
