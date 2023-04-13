@@ -11,10 +11,6 @@ const (
 )
 
 type IResource interface {
-	//New(client IFhirClient) IResource
 	ById(id string) IParameters
 	Where(option UrlParameters) IParameters
 }
-
-// IParameter
-// what are the parameters we're looking for

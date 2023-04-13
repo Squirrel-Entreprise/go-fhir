@@ -13,7 +13,6 @@ import (
 	models_r4 "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/versions/r4/models"
 )
 
-// HTTP client for making requests to FHIR servers.
 type httpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
@@ -41,16 +40,6 @@ func NewFhirClient(baseURL, apiKey, apiValue string) fhirInterface.IClient {
 	}
 }
 
-/*
-func init() {
-	ClientHttp = &http.Client{
-		Timeout: 30 * time.Second,
-		Transport: &http.Transport{
-			MaxIdleConns:        0,
-			MaxIdleConnsPerHost: 10,
-		},
-	}
-}*/
 func (f *fhir) call(method string, path *url.URL, payload []byte, res interface{}) error {
 
 	fmt.Println("\t\t\t\t\t", "-->", method, ":", f.BaseURL+path.String())
@@ -114,7 +103,7 @@ func (f *fhir) GetRaw(uri string, p fhirInterface.UrlParameters) ([]byte, error)
 	return nil, nil
 }
 
-func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.ResourceType) (fhirInterface.IResource, error) {
+func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.ResourceType) (fhirInterface.IResourceResult, error) {
 	values := p.BuildUrlValues()
 	path := &url.URL{
 		Path:     uri,
@@ -123,7 +112,7 @@ func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterf
 
 	switch resType {
 	case fhirInterface.BUNDLE:
-		res := &models_r4.Bundle{}
+		res := &models_r4.BundleResult{}
 		err := f.call("GET", path, nil, res)
 		if err != nil {
 			return nil, err

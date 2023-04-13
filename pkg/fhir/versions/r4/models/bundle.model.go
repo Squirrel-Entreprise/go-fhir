@@ -6,14 +6,22 @@ import (
 	fhirInterface "github.com/Squirrel-Entreprise/go-fhir/pkg/fhir/interface"
 )
 
-type Bundle struct {
-	Client fhirInterface.IClient
-	Entry  []struct {
+type BundleResult struct {
+	Id    string `json:"id"`
+	Entry []struct {
 		Resource struct {
 			Id   string `json:"id"`
 			Name string `json:"name"`
 		} `json:"resource"`
 	} `json:"entry"`
+}
+
+func (b *BundleResult) GetId() string {
+	return b.Id
+}
+
+type Bundle struct {
+	Client fhirInterface.IClient
 }
 
 func (org *Bundle) ById(id string) fhirInterface.IParameters {

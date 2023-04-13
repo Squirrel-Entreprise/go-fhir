@@ -61,7 +61,7 @@ func main() {
 	fmt.Printf("👨‍⚕️ PractitionerRole 1 details : \n")
 	practitionerRoleRaw := clientFhir.
 		Search(fhirInterface.PRACTITIONER_ROLE).
-		ById(bundleRes.(*models_r4.Bundle).Entry[0].Resource.Id).
+		ById(bundleRes.(*models_r4.BundleResult).Entry[0].Resource.Id).
 		ReturnRaw().
 		Execute()
 

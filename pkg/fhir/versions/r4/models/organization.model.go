@@ -22,7 +22,6 @@ func (org *Organization) ById(id string) fhirInterface.IParameters {
 	}
 }
 
-// The where funciton is here to add parameters to the request
 func (org *Organization) Where(option fhirInterface.UrlParameters) fhirInterface.IParameters {
 	fmt.Printf("\t\t--> Where()\n")
 

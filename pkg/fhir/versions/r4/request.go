@@ -26,7 +26,7 @@ func (req *Request) Execute() interface{} {
 		return resRaw
 	}
 	fmt.Println("\t\t\t\t--> Execute()")
-	var res fhirInterface.IResource
+	var res fhirInterface.IResourceResult
 	res, err = req.Client.Get(req.Uri, req.Parameters, req.TypeReturned)
 	if err != nil {
 		fmt.Println(err)

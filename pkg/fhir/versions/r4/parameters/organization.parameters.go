@@ -21,7 +21,6 @@ func (org *OrganizationParameters) ReturnBundle() fhirInterface.IRequest {
 		Parameters:   org.Parameters,
 		TypeReturned: fhirInterface.BUNDLE,
 	}
-	//return nil
 }
 
 func (org *OrganizationParameters) Return() fhirInterface.IRequest {
