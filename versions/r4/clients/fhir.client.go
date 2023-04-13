@@ -13,15 +13,20 @@ import (
 	models_r4 "github.com/Squirrel-Entreprise/go-fhir/versions/r4/models"
 )
 
+const (
+	DEFAULT_ENTRY_LIMIT = 100
+)
+
 type httpClient interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
 type fhir struct {
-	Client   httpClient
-	BaseURL  string
-	ApiKey   string
-	ApiValue string
+	Client     httpClient
+	BaseURL    string
+	ApiKey     string
+	ApiValue   string
+	EntryLimit int
 }
 
 func NewFhirClient(baseURL, apiKey, apiValue string) fhirInterface.IClient {
@@ -33,10 +38,11 @@ func NewFhirClient(baseURL, apiKey, apiValue string) fhirInterface.IClient {
 		},
 	}
 	return &fhir{
-		Client:   clientHttp,
-		BaseURL:  baseURL,
-		ApiKey:   apiKey,
-		ApiValue: apiValue,
+		Client:     clientHttp,
+		BaseURL:    baseURL,
+		ApiKey:     apiKey,
+		ApiValue:   apiValue,
+		EntryLimit: DEFAULT_ENTRY_LIMIT,
 	}
 }
 
@@ -109,6 +115,7 @@ func (f *fhir) GetRaw(uri string, p fhirInterface.UrlParameters) ([]byte, error)
 
 func (f *fhir) Get(uri string, p fhirInterface.UrlParameters, resType fhirInterface.ResourceType) (fhirInterface.IResourceResult, error) {
 	values := p.BuildUrlValues()
+	values.Add("_count", fmt.Sprintf("%d", f.EntryLimit))
 	path := &url.URL{
 		Path:     uri,
 		RawQuery: values.Encode(),
@@ -166,4 +173,8 @@ func (f *fhir) LoadPage() struct {
 			return req
 		},
 	}
+}
+
+func (f *fhir) SetEntryLimit(limit int) {
+	f.EntryLimit = limit
 }

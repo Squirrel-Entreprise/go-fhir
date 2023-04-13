@@ -53,7 +53,7 @@ func main() {
 		Execute()
 	fmt.Println(string(practitionerRoleRaw.([]byte)))
 
-	// get the practitioner with the Id 003-357936
+	// Get the practitioner with the Id 003-357936
 	fmt.Println("👨‍⚕️ Practitioner with Id = 003-357936 : ")
 	practitionerRaw := clientFhir.
 		Search(fhirInterface.PRACTITIONER).
@@ -62,7 +62,7 @@ func main() {
 		Execute()
 	fmt.Println(string(practitionerRaw.([]byte)))
 
-	// get the organization with the Id 001-01-702556
+	// Get the organization with the Id 001-01-702556
 	fmt.Println("🏤 Organization with Id = 001-01-702556 : ")
 	organizationRaw := clientFhir.
 		Search(fhirInterface.ORGANIZATION).

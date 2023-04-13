@@ -11,6 +11,7 @@ type UrlParameters struct {
 	GetPages   string
 	PageId     string
 	BundleType string
+	Count      string
 }
 
 func (u UrlParameters) BuildUrlValues() url.Values {
@@ -35,6 +36,9 @@ func (u UrlParameters) BuildUrlValues() url.Values {
 	}
 	if u.BundleType != "" {
 		values.Add("_bundletype", u.BundleType)
+	}
+	if u.Count != "" {
+		values.Add("_count", u.Count)
 	}
 	return values
 }

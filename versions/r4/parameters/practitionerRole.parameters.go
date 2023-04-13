@@ -21,7 +21,6 @@ func (pr *PractitionerRoleParameters) ReturnBundle() fhirInterface.IRequest {
 		Parameters:   pr.Parameters,
 		TypeReturned: fhirInterface.BUNDLE,
 	}
-	//return nil
 }
 
 func (pr *PractitionerRoleParameters) Return() fhirInterface.IRequest {
