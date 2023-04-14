@@ -2,6 +2,8 @@
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/Squirrel-Entreprise/go-fhir.svg)](https://pkg.go.dev/github.com/Squirrel-Entreprise/go-fhir)
 
+Bienvenue sur la librairie [Go FHIR](https://github.com/Squirrel-Entreprise/go-fhir), une bibliothèque open-source développée par [Squirrel](https://www.squirrel.fr) pour faciliter la manipulation des données de santé en utilisant le format [FHIR](https://www.hl7.org/fhir/) (Fast Healthcare Interoperability Resources). Cette librairie est conçue pour être performante et facile à utiliser, offrant une interface simple et intuitive pour interagir avec des serveurs FHIR.
+
 ## Sample
 visible into `./cmd/sample/main.go`
 
