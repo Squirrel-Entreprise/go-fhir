@@ -1,4 +1,4 @@
-# Golang FHIR Client
+# Golang FHIR Client Esante
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/Squirrel-Entreprise/go-fhir.svg)](https://pkg.go.dev/github.com/Squirrel-Entreprise/go-fhir)
 
