@@ -24,7 +24,7 @@ func (e *Entry) GetPractitionerReference() string {
 	if e.Resource.Practitioner.Reference == "" {
 		return ""
 	}
-	return e.Resource.Practitioner.Reference[12:]
+	return e.Resource.Practitioner.Reference[13:]
 }
 
 func (e *Entry) GetOrganizationReference() string {
