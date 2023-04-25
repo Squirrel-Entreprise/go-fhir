@@ -21,18 +21,12 @@ type BundleResult struct {
 		Relation string `json:"relation"`
 		Url      string `json:"url"`
 	} `json:"link"`
-	Entry []struct {
-		Resource struct {
-			Id   string `json:"id"`
-			Name string `json:"name"`
-		} `json:"resource"`
-	} `json:"entry"`
+	Entry []Entry `json:"entry"`
 }
 
 func (b *BundleResult) GetId() string {
 	return b.Id
 }
-
 func (b *BundleResult) GetNextLink() string {
 	for _, link := range b.Link {
 		if link.Relation == "next" {
