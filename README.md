@@ -36,7 +36,7 @@ bundleRes := clientFhir.
 ### Load the next page
 
 ```go
-bundleRes = clientFhir.LoadPage().Next(bundleRes.(*models_r4.BundleResult)).Execute()
+res = clientFhir.LoadPage().Next(res).Execute()
 ```
 
 ### Searching Organization by Id
