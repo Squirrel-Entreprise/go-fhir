@@ -59,7 +59,7 @@ func main() {
 				Execute()
 
 			// If the organization is in Mayotte or Reunion,
-			// we look for the details of the practitioner
+			// we look for the practitioner's details
 			postalCodes := extractPostalCodesFromJson(organizationRaw.([]byte))
 			if len(postalCodes) == 0 {
 				continue
@@ -78,20 +78,28 @@ func main() {
 				continue
 			}
 
-			practitionerRoleRaw := clientFhir.
+			log.Println("✅ Found a physiotherapist in Mayotte or Reunion")
+
+			practitionerRaw := clientFhir.
 				Search(fhirInterface.PRACTITIONER).
 				ById(e.GetPractitionerReference()).
 				ReturnRaw().
 				Execute()
-			log.Println(string(practitionerRoleRaw.([]byte)))
+
+			practitionerRoleRaw := clientFhir.
+				Search(fhirInterface.PRACTITIONER_ROLE).
+				ById(e.GetId()).
+				ReturnRaw().
+				Execute()
+
+			log.Print("Practitioner : \n\n", string(practitionerRaw.([]byte)), "\n\n")
+			log.Print("PractitionerRoleRaw : \n\n", string(practitionerRoleRaw.([]byte)), "\n\n")
 		}
-		// If there is a next link, we load the next page and we start again
-		if res.GetNextLink() != "" {
-			log.Println("next link", res.GetNextLink())
-			bundleRes = clientFhir.LoadPage().Next(bundleRes.(*models_r4.BundleResult)).Execute()
-		} else {
+		if res.GetNextLink() == "" {
 			break
 		}
+		log.Println("next link", res.GetNextLink())
+		res = clientFhir.LoadPage().Next(res).Execute().(*models_r4.BundleResult)
 	}
 }
 
