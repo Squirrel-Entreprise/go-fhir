@@ -15,14 +15,11 @@ import (
 
 const (
 	DEFAULT_ENTRY_LIMIT = 100
+	DEFAULT_TIMEOUT     = 30
 )
 
-type httpClient interface {
-	Do(req *http.Request) (*http.Response, error)
-}
-
 type fhir struct {
-	Client     httpClient
+	Client     http.Client
 	BaseURL    string
 	ApiKey     string
 	ApiValue   string
@@ -31,14 +28,14 @@ type fhir struct {
 
 func NewFhirClient(baseURL, apiKey, apiValue string) fhirInterface.IClient {
 	clientHttp := &http.Client{
-		Timeout: 30 * time.Second,
+		Timeout: DEFAULT_TIMEOUT * time.Second,
 		Transport: &http.Transport{
 			MaxIdleConns:        0,
 			MaxIdleConnsPerHost: 10,
 		},
 	}
 	return &fhir{
-		Client:     clientHttp,
+		Client:     *clientHttp,
 		BaseURL:    baseURL,
 		ApiKey:     apiKey,
 		ApiValue:   apiValue,
@@ -177,4 +174,8 @@ func (f *fhir) LoadPage() struct {
 
 func (f *fhir) SetEntryLimit(limit int) {
 	f.EntryLimit = limit
+}
+
+func (f *fhir) SetTimeout(timeout int) {
+	f.Client.Timeout = time.Duration(timeout) * time.Second
 }
