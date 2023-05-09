@@ -9,4 +9,5 @@ type IClient interface {
 	Get(uri string, p UrlParameters, resType ResourceType) (IResourceResult, error)
 	Search(resourceName ResourceType) IResource
 	SetEntryLimit(limit int)
+	SetTimeout(timeout int)
 }

@@ -26,6 +26,7 @@ func main() {
 
 	// LIMIT 500
 	clientFhir.SetEntryLimit(500)
+	clientFhir.SetTimeout(30)
 
 	// Look for all physiotherapists
 	bundleRes := clientFhir.
